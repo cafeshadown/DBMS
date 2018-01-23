@@ -1,0 +1,94 @@
+
+
+USE DATABASE test1;
+
+SHOW TABLES;
+
+CREATE TABLE person(name VARCHAR(12) PRIMARY KEY, age INTEGER NOT NULL, sex VARCHAR(4));
+INSERT INTO person VALUES("李白", 117, "男");
+INSERT INTO person VALUES("张三", 111, "女");
+INSERT INTO person VALUES("爱新觉罗释迦牟尼尼古拉斯赵四", 115, "男");
+INSERT INTO person VALUES("关胜", 113, "男");
+INSERT INTO person VALUES("林冲", 109, "男");
+
+UPDATE person SET name="林冲" WHERE person.name="李白";
+
+CREATE TABLE employee(name VARCHAR(12), ssn VARCHAR(22), country VARCHAR(10), sex VARCHAR(8));
+INSERT INTO employee VALUES("李白", "370783190000000000", "中国", "男");
+INSERT INTO employee VALUES("张三", "370783190200000000", "中国", "男");
+INSERT INTO employee VALUES("赵四", "370783190400000000", "中国", "男");
+
+
+SELECT * FROM employee;
+ALTER TABLE employee ADD department VARCHAR(12);
+INSERT INTO employee VALUES("麦当娜", "370783190100000000", "USA", "女", "LivaNation");
+ALTER TABLE employee DROP department;
+ALTER TABLE employee DROP ssn, country;
+
+UPDATE employee SET department="忠义堂" WHERE employee.name="宋江";
+UPDATE employee SET country="CN" WHERE employee.country="中国";
+UPDATE employee SET country="美国", sex="woman" WHERE employee.country="USA" AND employee.sex="女";
+UPDATE employee SET country="中国" WHERE employee.country="CN" AND employee.sex="女" OR employee.name="宋江" AND employee.country="CN";
+
+DELETE FROM employee WHERE employee.name="林冲";
+DELETE FROM employee WHERE employee.sex="woman" AND employee.country="美国" OR employee.sex="女" AND employee.country="中国";
+DELETE FROM employee;
+
+CREATE TABLE salary(name VARCHAR(24), department VARCHAR(12), salary INTEGER);
+INSERT INTO salary VALUES("李白", "忠义堂", 6000);
+
+
+SELECT * FROM salary;
+DELETE FROM salary;
+DELETE FROM salary WHERE salary.name="超人";
+DELETE FROM salary WHERE salary.salary<7000;
+
+SELECT * FROM employee, person, salary;
+
+SELECT person.name, person.age, employee.country, employee.sex FROM person, employee, salary WHERE salary.name=employee.name AND person.name=employee.name AND salary.salary>5500;
+
+SELECT person.name, salary.department
+FROM person, salary
+WHERE person.name=salary.name AND salary.salary>5500
+OR
+person.name=salary.name AND salary.name="林冲";
+
+DROP TABLE salary;
+
+USE DATABASE test1;
+
+CREATE TABLE unrepatedIndex(name VARCHAR(24), age INTEGER);
+CREATE TABLE index1(name VARCHAR(24), age INTEGER);
+
+use database test4;
+show tables;
+
+SELECT person.name FROM person WHERE person.age>15;
+//创建索引
+CREATE INDEX unrepatedIndex_index ON person age;
+
+SELECT person.name FROM person WHERE person.age>15;
+
+SELECT person.name, person.age, employee.country, employee.sex FROM person, employee, salary WHERE salary.name=employee.name AND person.name=employee.name AND salary.salary>5500;
+//退出
+EXIT;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
